@@ -39,3 +39,4 @@ luac.out
 *.x86_64
 *.hex
 
+# Mod's zip package that's considered a release
