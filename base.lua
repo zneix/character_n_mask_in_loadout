@@ -13,6 +13,9 @@ local module = DMod:new("character_n_mask_in_loadout", {
     },
 })
 
+-- makes sure chat box is always visible in loadout menu (useful in e.g. singleplayer mode)
+module:add_config_option("cml_always_show_chat", false)
+
 -- hook to the "kit_menu", which represents the 'loadout menu' - the one you see right before readying up
 module:hook("OnMenuSetup", "OnMenuSetup_AddCharAndMaskSelect", "kit_menu", function(self, menu, nodes)
     local character_options = { type = "MenuItemMultiChoice" }
@@ -52,6 +55,14 @@ module:hook("OnMenuSetup", "OnMenuSetup_AddCharAndMaskSelect", "kit_menu", funct
         text_id = "menu_choose_mask",
         menu_name = menu.name,
     }, { type = "MenuItemMultiChoice" })
+
+    -- make chat visible at all times
+    if D:conf("cml_always_show_chat") then
+        local chat_item = nodes.kit:item("chat")
+        chat_item:parameters().visible_callback = ""
+        chat_item._visible_callback_list = {}
+        chat_item._visible_callback_name_list = ""
+    end
 end)
 
 return module
