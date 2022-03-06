@@ -40,3 +40,4 @@ luac.out
 *.hex
 
 # Mod's zip package that's considered a release
+character_n_mask_in_loadout/
