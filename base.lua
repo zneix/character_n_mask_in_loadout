@@ -65,4 +65,21 @@ module:hook("OnMenuSetup", "OnMenuSetup_AddCharAndMaskSelect", "kit_menu", funct
     end
 end)
 
+module:hook_post_require("lib/managers/menu/menukitrenderer", function(self_parent)
+    local MenuKitRenderer = module:hook_class("MenuKitRenderer")
+    -- override original function to also set "multi_choice" items respectively to the ready button instead of having them active all the time
+    module:hook(MenuKitRenderer, "set_ready_items_enabled", function(self, enabled)
+        if not self._all_items_enabled then
+            return
+        end
+        for _, node in ipairs(self._logic._node_stack) do
+            for _, item in ipairs(node:items()) do
+                if item:type() == "kitslot" or item:type() == "multi_choice" then
+                    item:set_enabled(enabled)
+                end
+            end
+        end
+    end)
+end)
+
 return module
