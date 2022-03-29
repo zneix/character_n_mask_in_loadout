@@ -1,7 +1,7 @@
 local module = DMod:new("character_n_mask_in_loadout", {
 	name = "Character and Mask in loadout menu",
 	abbr = "CML",
-	version = "1.0.2",
+	version = "1.0.3",
 	author = "zneix",
 	categories = { "qol" },
 	description = {

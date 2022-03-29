@@ -1,3 +1,7 @@
+## 1.0.3
+- Internal code optimizations and cleanup.
+- Added link to the changelog in game update menu.
+
 ## 1.0.2
 - Made character and mask options locked after checking "ready" button.
 - Added a config option `cml_always_show_chat` to have chat visible at all times (useful in e.g. singleplayer loadout menu).
