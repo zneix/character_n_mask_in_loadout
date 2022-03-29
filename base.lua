@@ -10,7 +10,6 @@ local module = DMod:new("character_n_mask_in_loadout", {
 	update = {
 		id = "character_n_mask_in_loadout",
 		url = "https://cdn.zneix.eu/pdthmods/versions.json",
-		notes_url = "https://github.com/zneix/character_n_mask_in_loadout/blob/master/CHANGELOG.md",
 	},
 })
 
