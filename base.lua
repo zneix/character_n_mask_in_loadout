@@ -89,6 +89,51 @@ return DMod:new(mod_id, {
 			end
 		},
 		{
+			"post_require", "lib/managers/menumanager", function(module)
+				local MaskOptionInitiator = module:hook_class("MaskOptionInitiator")
+				-- add logic which will show dialog with a list of all available masks when pressing Enter on "choose mask" item
+				module:post_hook(MaskOptionInitiator, "modify_node", function(self, node)
+					module:log(5, "MaskOptionInitiator:modify_node", "Setting up confirm callback action")
+
+					local choose_mask_item = node:item("choose_mask")
+					if not choose_mask_item then return end -- just in case
+
+					choose_mask_item:set_parameter("item_confirm_callback", function(item, mouse_click, params)
+						module:log(5, "choose_mask.item_confirm_callback", "preparing mask selector dialog")
+
+						local bl = {}
+						-- add item for every mask available
+						for index, mask_item in ipairs(item._all_options) do
+							table.insert(bl, {
+								text = managers.localization:text(mask_item:parameters().text_id),
+								callback_func = function()
+									local v = mask_item:parameters().value
+									module:log(4, "choose_mask.item_confirm_callback", "setting mask", v)
+									choose_mask_item:set_value(v)
+									choose_mask_item:trigger()
+								end
+							})
+						end
+
+						-- add cancel button
+						-- zneix: is there a good way to prepend some divider/spacing without making it a selecable option?
+						table.insert(bl, {
+							text = managers.localization:text("dialog_cancel"),
+							cancel_button = true,
+						})
+
+						-- raise the dialog with all available masks
+						managers.system_menu:show({
+							title = "Choose mask",
+							--text = "Choose mask",
+							button_list = bl,
+							focus_button = choose_mask_item._current_index or #bl,
+						})
+					end)
+				end, false)
+			end
+		},
+		{
 			"post_require", "lib/managers/criminalsmanager", function(module)
 				if not D:conf("debug_cml_show_add_character_calls") then return end
 
