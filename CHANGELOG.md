@@ -1,3 +1,6 @@
+## 1.1.1
+- Added an option to show a list (press Enter on the "choose mask" option) of all masks from which you can select the one you want. This essentially removes need to scroll through all the masks to select the one you want.
+
 ## 1.1.0
 - Restructurized mod's code with new DAHM's syntax.
 
