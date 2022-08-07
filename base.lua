@@ -16,6 +16,7 @@ return DMod:new(mod_id, {
 	config = {
 		-- makes sure chat box is always visible in loadout menu (useful in e.g. singleplayer mode)
 		{ "cml_always_show_chat", false },
+		{ "debug_cml_show_add_character_calls", false },
 	},
 	hooks = {
 		{
@@ -89,8 +90,10 @@ return DMod:new(mod_id, {
 		},
 		{
 			"post_require", "lib/managers/criminalsmanager", function(module)
+				if not D:conf("debug_cml_show_add_character_calls") then return end
+
 				local CriminalsManager = module:hook_class("CriminalsManager")
-				-- TODO: update character and mask of a player
+				-- TODO, WIP: update character and mask of a player
 				module:post_hook(CriminalsManager, "add_character", function(self, name, unit, peer_id, ai)
 					for id, data in pairs(self._characters) do
 						if data.name == name then
