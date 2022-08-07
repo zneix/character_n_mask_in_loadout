@@ -22,6 +22,9 @@ return DMod:new(mod_id, {
 			-- add things of our interest to the "kit_menu" (the 'loadout menu' - one you see right before readying up)
 			"event", "OnMenuSetup", "OnMenuSetup_AddCharAndMaskSelect", "kit_menu", function(self, menu, nodes)
 				local module = D:module(mod_id)
+				local MaskOptionInitiator = module:hook_class("MaskOptionInitiator")
+
+				local kit_node = nodes.kit
 				local character_options = { type = "MenuItemMultiChoice" }
 				for _, data in ipairs({
 					{ stencil_align_percent = "65", stencil_image = "bg_lobby_fullteam", text_id = "menu_character_random", value = "random" },
@@ -34,7 +37,7 @@ return DMod:new(mod_id, {
 				end
 
 				-- add character selector item
-				self:insert_menu_item(nodes.kit, false, { before = "ready" }, {
+				self:insert_menu_item(kit_node, false, { before = "ready" }, {
 					name = "choose_character",
 					callback = "choice_choose_character",
 					-- TODO: Figure out proper visible_callback for this one. For now, it'll just be visible at all times
@@ -46,14 +49,11 @@ return DMod:new(mod_id, {
 				}, character_options)
 
 				-- MaskOptionInitiator has to be added as a modifier to kit_menu's node, so it is able to inject options to the "choose_mask" item
-				local node_params = nodes.kit:parameters()
-				local MaskOptionInitiator = module:hook_class("MaskOptionInitiator")
 				local moi = MaskOptionInitiator:new()
-
-				table.insert(node_params.modifier, callback(moi, moi, "modify_node"))
+				table.insert(kit_node:parameters().modifier, callback(moi, moi, "modify_node"))
 
 				-- add mask selector item
-				self:insert_menu_item(nodes.kit, false, { before = "ready" }, {
+				self:insert_menu_item(kit_node, false, { before = "ready" }, {
 					name = "choose_mask",
 					callback = "choice_mask",
 					text_id = "menu_choose_mask",
@@ -62,7 +62,7 @@ return DMod:new(mod_id, {
 
 				-- make chat visible at all times
 				if D:conf("cml_always_show_chat") then
-					local chat_item = nodes.kit:item("chat")
+					local chat_item = kit_node:item("chat")
 					chat_item:parameters().visible_callback = ""
 					chat_item._visible_callback_list = {}
 					chat_item._visible_callback_name_list = ""
