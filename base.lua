@@ -2,7 +2,7 @@ local mod_id = "character_n_mask_in_loadout"
 return DMod:new(mod_id, {
 	name = "Character and Mask in loadout menu",
 	abbr = "CML",
-	version = "1.0.3",
+	version = "1.1.0",
 	author = "zneix",
 	categories = { "qol" },
 	description = {

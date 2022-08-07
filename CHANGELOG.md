@@ -1,3 +1,6 @@
+## 1.1.0
+- Restructurized mod's code with new DAHM's syntax.
+
 ## 1.0.3
 - Internal code optimizations and cleanup.
 - Added link to the changelog in game update menu.
